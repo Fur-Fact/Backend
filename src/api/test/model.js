@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../data/sequelize');
+const Pet = require('../pet/model');
 
 const Test = sequelize.define('Test', {
     id: {
@@ -7,6 +8,15 @@ const Test = sequelize.define('Test', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+    },
+    petId: {
+        field: "pet_id",
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Pet,
+            key: 'id'
+        }
     },
     comment: {
         field: 'comment',
