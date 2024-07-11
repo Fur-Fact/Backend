@@ -8,6 +8,10 @@ const FurData = require('../api/furdata/model');
 User.hasMany(Pet, { foreignKey: 'user_id' });
 Pet.belongsTo(User, { foreignKey: 'user_id' });
 
+// 관계 설정
+Pet.hasMany(Test, { foreignKey: 'pet_id' });
+Test.belongsTo(Pet, { foreignKey: 'pet_id' });
+
 // Test와 FurData 간의 관계 설정
 Test.hasMany(FurData, { foreignKey: 'test_id' });
 FurData.belongsTo(Test, { foreignKey: 'test_id' });
