@@ -1,15 +1,28 @@
-const express = require('express')
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const initializeDatabase = require('./src/data/initDatabase'); // 데이터베이스 초기화 함수 가져오기
+
 const app = express();
-const PORT = 4000;
+const port = process.env.PORT || 3000;
 
-function handleListening (){
-    console.log(`Listening on: http://localhost:${PORT}`);
-}
+// 미들웨어 설정
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
-function handleHome(req, res){
-    res.send("hello");
-}
+// 라우터 설정
+const router = require('./src/router');
+app.use("/", router);
 
-app.get("/", handleHome);
-
-app.listen(PORT, handleListening);
+// 데이터베이스 초기화 후 서버 시작
+initializeDatabase()
+    .then(() => {
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    })
+    .catch((err) => {
+    console.error('Failed to initialize the database. Server not started.');
+});
