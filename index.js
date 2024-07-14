@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 const initializeDatabase = require('./src/data/initDatabase'); // 데이터베이스 초기화 함수 가져오기
 
 const app = express();
@@ -11,6 +13,10 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+// Swagger 설정
+const setupSwagger = require('./src/swagger/swagger');
+setupSwagger(app);
 
 // 라우터 설정
 const router = require('./src/router');

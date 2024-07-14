@@ -11,7 +11,6 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME
     acquire: 30000,
     idle: 10000
   },
-  logging: console.log, // SQL 쿼리 로그 출력
 });
 
 module.exports = sequelize;
