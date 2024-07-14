@@ -30,7 +30,7 @@ const Pet = sequelize.define("Pet", {
     },
     image: {
         field: "image",
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(2048),
         allowNull: true
     },
     gender: {

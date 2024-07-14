@@ -4,7 +4,6 @@ const logging = require("./middleware/logging");
 const userController = require("./api/user/controller");
 const petController = require("./api/pet/controller");
 const verify = require("./middleware/jwtVerify");
-
 // 로깅 미들웨어 사용
 router.use(logging);
 
