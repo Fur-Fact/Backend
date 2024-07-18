@@ -3,9 +3,9 @@ version: '3.8'
 services:
   db:
     container_name: pet-database
-    image: mysql:8.0.1
+    image: mysql:latest
     volumes:
-      - ./db/data:/var/lib/mysql
+      - db-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
@@ -32,3 +32,6 @@ services:
     volumes:
       - ./:/usr/src/app
     command: ["./wait-for-it.sh", "db:3306", "--", "npm", "start"]
+
+volumes:
+  db-data:

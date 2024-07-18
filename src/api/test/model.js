@@ -9,18 +9,84 @@ const Test = sequelize.define('Test', {
         primaryKey: true,
         autoIncrement: true,
     },
-    // petId: {
-    //     field: "pet_id",
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     references: {
-    //         model: Pet,
-    //         key: 'id'
-    //     }
-    // },
     comment: {
         field: 'comment',
         type: DataTypes.STRING(1024),
+        allowNull: true,
+    },
+    hospital: {
+        field: 'hospital',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    receivedAt: {
+        field: 'received_at',
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    resultDate: {
+        field: 'result_date',
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    guardianName: {
+        field: 'guardian_name',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    contactNumber: {
+        field: 'contact_number',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    petName: {
+        field: 'pet_name',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    species: {
+        field: 'species',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    breed: {
+        field: 'breed',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    age: {
+        field: 'age',
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    gender: {
+        field: 'gender',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    weight: {
+        field: 'weight',
+        type: DataTypes.FLOAT,
+        allowNull: true,
+    },
+    hereditaryDisease: {
+        field: 'hereditary_disease',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    feedingMethod: {
+        field: 'feeding_method',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    supplements: {
+        field: 'supplements',
+        type: DataTypes.STRING(256),
+        allowNull: true,
+    },
+    medication: {
+        field: 'medication',
+        type: DataTypes.STRING(256),
         allowNull: true,
     },
     createdAt: {
@@ -32,7 +98,7 @@ const Test = sequelize.define('Test', {
     updatedAt: {
         field: 'updated_at',
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: false,
         defaultValue: DataTypes.NOW,
     },
     isDeleted: {

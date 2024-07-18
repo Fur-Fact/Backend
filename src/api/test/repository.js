@@ -1,8 +1,8 @@
 const Test = require('../test/model');
 
-exports.createTest = async () => {
+exports.createTest = async (data) => {
     try {
-        const newTest = await Test.create();
+        const newTest = await Test.create(data);
         return newTest;
     } catch (error) {
         throw error;
