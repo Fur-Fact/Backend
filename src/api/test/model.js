@@ -9,15 +9,15 @@ const Test = sequelize.define('Test', {
         primaryKey: true,
         autoIncrement: true,
     },
-    petId: {
-        field: "pet_id",
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Pet,
-            key: 'id'
-        }
-    },
+    // petId: {
+    //     field: "pet_id",
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     references: {
+    //         model: Pet,
+    //         key: 'id'
+    //     }
+    // },
     comment: {
         field: 'comment',
         type: DataTypes.STRING(1024),

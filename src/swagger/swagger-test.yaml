@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+  description: Test 관리 API 문서
+
+paths:
+  /api/v1/tests:
+    post:
+      summary: Test 생성
+      tags:
+        - Tests
+      description: 새로운 Test를 생성합니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '200':
+          description: 성공적으로 Test가 생성되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Test 생성에 성공했습니다.
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: Test ID
+        '400':
+          description: 잘못된 요청.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+        '500':
+          description: 서버 오류로 인해 Test 생성에 실패했습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: Test 생성에 실패했습니다.
+
+components:
+  schemas:
+    Test:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Test ID
