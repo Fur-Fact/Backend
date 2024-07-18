@@ -18,11 +18,6 @@ const FurData = sequelize.define('FurData', {
             key: 'id',
         },
     },
-    name: {
-        field: "name",
-        type: DataTypes.STRING(15),
-        allowNull: false
-    },
     Ca: { field: 'Ca', type: DataTypes.FLOAT, allowNull: true },
     Mg: { field: 'Mg', type: DataTypes.FLOAT, allowNull: true },
     Na: { field: 'Na', type: DataTypes.FLOAT, allowNull: true },
