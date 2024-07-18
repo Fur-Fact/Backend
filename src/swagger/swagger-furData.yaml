@@ -1,0 +1,184 @@
+openapi: 3.0.0
+info:
+  title: FurData API
+  version: 1.0.0
+  description: FurData 관리 API 문서
+
+paths:
+  /api/v1/furdatas:
+    post:
+      summary: FurData 업로드 및 처리
+      tags:
+        - furdatas
+      description: 엑셀 파일을 업로드하여 JSON으로 변환하고 데이터를 데이터베이스에 저장합니다.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 업로드할 엑셀 파일
+                testId:
+                  type: integer
+                  description: 테스트 ID
+      responses:
+        '200':
+          description: 성공적으로 FurData가 저장되었습니다.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: FurData successfully saved.
+        '400':
+          description: 잘못된 요청. 파일이 업로드되지 않았거나 testId가 누락되었습니다.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: 파일 처리 중 오류가 발생했습니다.
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    FurData:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 고유 ID
+        testId:
+          type: integer
+          description: 테스트 ID
+        name:
+          type: string
+          description: 보호자 이름
+        Ca:
+          type: number
+          format: float
+          description: 칼슘(Ca)
+        Mg:
+          type: number
+          format: float
+          description: 마그네슘(Mg)
+        Na:
+          type: number
+          format: float
+          description: 나트륨(Na)
+        K:
+          type: number
+          format: float
+          description: 칼륨(K)
+        P:
+          type: number
+          format: float
+          description: 인(P)
+        Zn:
+          type: number
+          format: float
+          description: 아연(Zn)
+        Cu:
+          type: number
+          format: float
+          description: 구리(Cu)
+        Se:
+          type: number
+          format: float
+          description: 셀레늄(Se)
+        Fe:
+          type: number
+          format: float
+          description: 철(Fe)
+        Cr:
+          type: number
+          format: float
+          description: 크롬(Cr)
+        V:
+          type: number
+          format: float
+          description: 바나듐(V)
+        Mn:
+          type: number
+          format: float
+          description: 망간(Mn)
+        Mo:
+          type: number
+          format: float
+          description: 몰리브덴(Mo)
+        Co:
+          type: number
+          format: float
+          description: 코발트(Co)
+        S:
+          type: number
+          format: float
+          description: 황(S)
+        B:
+          type: number
+          format: float
+          description: 붕소(B)
+        Li:
+          type: number
+          format: float
+          description: 리튬(Li)
+        Sr:
+          type: number
+          format: float
+          description: 스트론튬(Sr)
+        Hg:
+          type: number
+          format: float
+          description: 수은(Hg)
+        Pb:
+          type: number
+          format: float
+          description: 납(Pb)
+        Al:
+          type: number
+          format: float
+          description: 알루미늄(Al)
+        Cd:
+          type: number
+          format: float
+          description: 카드뮴(Cd)
+        As:
+          type: number
+          format: float
+          description: 비소(As)
+        Ba:
+          type: number
+          format: float
+          description: 바륨(Ba)
+        Sb:
+          type: number
+          format: float
+          description: 안티몬(Sb)
+        Bi:
+          type: number
+          format: float
+          description: 비스무스(Bi)
+        Ti:
+          type: number
+          format: float
+          description: 탈륨(Tl)
+        U:
+          type: number
+          format: float
+          description: 우라늄(U)
+        Cs:
+          type: number
+          format: float
+          description: 세슘(Cs)

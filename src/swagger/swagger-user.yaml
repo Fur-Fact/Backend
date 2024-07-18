@@ -1,0 +1,147 @@
+openapi: 3.0.0
+info:
+  title: 사용자 관리 API
+  version: 1.0.0
+  description: 사용자 관리를 위한 API
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/v1/users/signup:
+    post:
+      summary: 회원가입
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 사용자 이름
+                email:
+                  type: string
+                  description: 사용자 이메일
+                password:
+                  type: string
+                  description: 사용자 비밀번호
+                phone:
+                  type: string
+                  description: 사용자 전화번호
+      responses:
+        200:
+          description: 사용자 등록 성공
+        400:
+          description: 중복된 이메일 또는 필드 누락
+        500:
+          description: 서버 오류
+
+  /api/v1/users/login:
+    post:
+      summary: 로그인
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 사용자 이메일
+                password:
+                  type: string
+                  description: 사용자 비밀번호
+      responses:
+        200:
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  access_token:
+                    type: string
+        400:
+          description: 잘못된 이메일 또는 비밀번호
+        500:
+          description: 서버 오류
+
+  /api/v1/users/{id}:
+    get:
+      summary: ID로 사용자 조회
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: 사용자 ID
+      responses:
+        200:
+          description: 사용자 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: 사용자를 찾을 수 없음
+        500:
+          description: 서버 오류
+
+  /api/v1/users/mypage:
+    get:
+      summary: 마이페이지 조회 (로그인 필요)
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 사용자 정보 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        401:
+          description: 유효하지 않은 토큰 또는 인증되지 않음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        500:
+          description: 서버 오류
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 사용자 ID
+        name:
+          type: string
+          description: 사용자 이름
+        email:
+          type: string
+          description: 사용자 이메일
+        phone:
+          type: string
+          description: 사용자 전화번호
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
