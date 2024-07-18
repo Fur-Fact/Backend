@@ -22,9 +22,6 @@ paths:
                   type: string
                   format: binary
                   description: 업로드할 엑셀 파일
-                testId:
-                  type: integer
-                  description: 테스트 ID
       responses:
         '200':
           description: 성공적으로 FurData가 저장되었습니다.
@@ -40,7 +37,7 @@ paths:
                     type: string
                     example: FurData successfully saved.
         '400':
-          description: 잘못된 요청. 파일이 업로드되지 않았거나 testId가 누락되었습니다.
+          description: 잘못된 요청. 파일이 업로드되지 않았습니다.
           content:
             text/plain:
               schema:
