@@ -1,10 +1,14 @@
 const FurData = require("./model");
 const Test = require('../test/model');
+const testRepository = require('../test/repository');
 
-exports.createFurdata = async (testId, jsonData) => {
+exports.createFurdata = async (jsonData) => {
     for (const data of jsonData) {
+
+        const test = await testRepository.createTest();
+
         const formattedData = {
-            testId: parseInt(testId),
+            testId: test.id,
             name: data['보호자 성함'],
             Ca: data['칼슘(Ca)'],
             Mg: data['마그네슘(Mg)'],

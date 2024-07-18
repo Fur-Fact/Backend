@@ -13,31 +13,31 @@ function readExcelAndConvertToJson(filePath) {
 
 exports.createFurdata = async(req, res) => {
     
-    const {testId} = req.body;
+    // const {testId} = req.body;
     
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
 
-    if (!testId) {
-        return res.status(400).send('testId is required.');
-    }
+    // if (!testId) {
+    //     return res.status(400).send('testId is required.');
+    // }
 
     const filePath = req.file.path;
 
     try {
-        const test = await testRepository.findTestById(testId);
+        // const test = await testRepository.findTestById(testId);
 
-        if (!test) {
-            return res.status(404).send({ result: 'fail', message: 'Test not found.' });
-        }
+        // if (!test) {
+        //     return res.status(404).send({ result: 'fail', message: 'Test not found.' });
+        // }
         // 엑셀 파일을 JSON으로 변환
         const jsonData = readExcelAndConvertToJson(filePath);
         
         // 파일 삭제 (변환 후 파일 삭제)
         fs.unlinkSync(filePath);
 
-        furdataRepository.createFurdata(testId, jsonData);
+        furdataRepository.createFurdata(jsonData);
 
         res.status(200).send({ result: 'success', message: 'FurData successfully saved.' });
     } catch (error) {
