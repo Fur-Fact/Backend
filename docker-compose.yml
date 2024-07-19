@@ -1,9 +1,9 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
     container_name: pet-database
-    image: mysql:8.0.1
+    image: mysql:latest
     volumes:
       - ./db/data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql

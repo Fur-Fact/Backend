@@ -1,5 +1,5 @@
 const express = require("express");
-const multer = require('multer');
+const multer = require("multer");
 const router = express.Router();
 const logging = require("./middleware/logging");
 const userController = require("./api/user/controller");
@@ -7,7 +7,7 @@ const petController = require("./api/pet/controller");
 const testController = require("./api/test/controller");
 const furdataController = require("./api/furdata/controller");
 const verify = require("./middleware/jwtVerify");
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: "uploads/" });
 // 로깅 미들웨어 사용
 router.use(logging);
 
@@ -19,12 +19,18 @@ router.get("/api/v1/users/:id", userController.getUserById); //유저별 조회
 
 //펫
 router.post("/api/v1/pets", verify, petController.registerPet); // 펫 등록
+router.put("/api/v1/pets/:petId", verify, petController.updatePet); // 펫 정보 수정
+router.delete("/api/v1/pets/:petId", verify, petController.deletePet); // 펫 정보 삭제
+router.get("/api/v1/pets/:petId", verify, petController.getPet); // 특정 펫 정보 조회
 
 //테스트
 router.post("/api/v1/tests", testController.createTest);
 
 //furdata
-router.post('/api/v1/furdatas', upload.single('file'), furdataController.createFurdata);
-
+router.post(
+  "/api/v1/furdatas",
+  upload.single("file"),
+  furdataController.createFurdata
+);
 
 module.exports = router;
