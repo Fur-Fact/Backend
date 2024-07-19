@@ -5,13 +5,17 @@ exports.createPet = async (petData) => {
 };
 
 exports.updatePet = async (petId, updateData) => {
-  return await Pet.findByIdAndUpdate(petId, updateData, { new: true });
+  return await Pet.update(updateData, {
+    where: { id: petId },
+  });
 };
 
 exports.deletePet = async (petId) => {
-  return await Pet.findByIdAndDelete(petId);
+  return await Pet.destroy({
+    where: { id: petId },
+  });
 };
 
 exports.getPet = async (petId) => {
-  return await Pet.findById(petId);
+  return await Pet.findByPk(petId);
 };

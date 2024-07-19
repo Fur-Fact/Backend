@@ -1,6 +1,7 @@
 const petRepository = require("./repository");
 const { uploadImage } = require("../../middleware/s3Upload");
 
+// 펫 생성
 exports.registerPet = [
   uploadImage.single("image"),
   async (req, res) => {
@@ -40,6 +41,7 @@ exports.registerPet = [
   },
 ];
 
+// 펫 조회
 exports.getPet = async (req, res) => {
   const { petId } = req.params;
 
@@ -60,28 +62,27 @@ exports.getPet = async (req, res) => {
   }
 };
 
+// 펫 수정
 exports.updatePet = async (req, res) => {
   const { petId } = req.params;
-  const { name, age, gender, species, weight, feed } = req.body;
+  const updateData = req.body; // 받은 데이터 전체를 업데이트 데이터로 사용
 
   try {
-    const updatedPet = await petRepository.updatePet(petId, {
-      name,
-      age,
-      gender,
-      species,
-      weight,
-      feed,
-    });
-    if (updatedPet) {
-      res
-        .status(200)
-        .send({ result: "success", message: "펫 정보가 업데이트 되었습니다." });
-    } else {
-      res
+    const pet = await petRepository.getPet(petId);
+    if (!pet) {
+      return res
         .status(404)
         .send({ result: "fail", message: "펫을 찾을 수 없습니다." });
     }
+
+    await pet.update(updateData);
+    res
+      .status(200)
+      .send({
+        result: "success",
+        message: "펫 정보가 업데이트 되었습니다.",
+        pet,
+      });
   } catch (err) {
     console.error("Error during pet update:", err);
     res
@@ -90,6 +91,7 @@ exports.updatePet = async (req, res) => {
   }
 };
 
+// 펫 삭제
 exports.deletePet = async (req, res) => {
   const { petId } = req.params;
 
