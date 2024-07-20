@@ -25,6 +25,8 @@ router.get("/api/v1/pets/:petId", verify, petController.getPet); // 특정 펫 �
 
 //테스트
 router.post("/api/v1/tests", testController.createTest);
+router.post('/api/v1/tests/comment', testController.addCommentToTest);
+router.post('/api/v1/tests/push', testController.pushAlarm);
 
 //furdata
 router.post(
