@@ -109,7 +109,7 @@ exports.deleteTest = async (req, res) => {
 // 검사 전체 리스트 조회
 exports.getTestList = async (req, res) => {
     try {
-        const testList = await testRepository.findAllTests();
+        const testList = await testRepository.getTestList();
 
         res.status(200).send({
           result: 'success',

@@ -1,5 +1,4 @@
 const Test = require('../test/model');
-const Pet = require('../pet/model');
 
 exports.createTest = async (data) => {
     try {
@@ -58,11 +57,21 @@ exports.deleteTest = async (id) => {
 };
 
 // 전체 테스트 리스트 조회 함수 추가
-exports.findAllTests = async () => {
-    try {
-        const tests = await Test.findAll();
-        return tests;
-    } catch (error) {
-        throw error;
-    }
+exports.getTestList = async () => {
+  try {
+    const tests = await Test.findAll({
+      attributes: [
+        'petName',
+        'age',
+        'gender',
+        'species',
+        'weight',
+        'resultDate',
+        'hereditary_disease',
+      ],
+    });
+    return tests;
+  } catch (error) {
+    throw error;
+  }
 };
