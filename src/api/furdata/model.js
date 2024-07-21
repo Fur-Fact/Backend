@@ -1,3 +1,4 @@
+
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../data/sequelize');
 const Test = require('../test/model');  // Test 모델 가져오기

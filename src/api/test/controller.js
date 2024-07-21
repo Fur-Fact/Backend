@@ -1,6 +1,5 @@
 const testRepository = require('./repository');
 const admin = require('firebase-admin');
-const furDataRepository = require('../furdata/repository')
 
 exports.createTest = async (req, res) => {
     try {
