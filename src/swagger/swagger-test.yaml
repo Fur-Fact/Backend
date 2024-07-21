@@ -219,6 +219,69 @@ paths:
                     example: fail
                   message:
                     type: string
+                    example: Test 생성에 실패했습니다.
+  /api/v1/tests/comment:
+    post:
+      summary: Test에 코멘트 추가
+      tags:
+        - Tests
+      description: 특정 Test에 코멘트를 추가합니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                test_id:
+                  type: integer
+                  description: Test ID
+                comment:
+                  type: string
+                  description: 추가할 코멘트
+              required:
+                - test_id
+                - comment
+      responses:
+        '200':
+          description: 코멘트 추가 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 코멘트 추가 성공했습니다.
+        '400':
+          description: 잘못된 요청 (test_id와 comment가 필요)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: test_id와 comment는 필수 항목입니다.
+        '500':
+          description: 서버 오류로 인해 코멘트 추가 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 코멘트 추가에 실패했습니다.
                     example: 코멘트 추가에 실패했습니다.
 
   /api/v1/tests/push:

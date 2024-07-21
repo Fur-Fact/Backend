@@ -1,9 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const admin = require('firebase-admin')
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
 const initializeDatabase = require('./src/data/initDatabase'); // 데이터베이스 초기화 함수 가져오기
 
 const app = express();
@@ -13,6 +12,13 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+// Firebase Admin SDK 초기화
+let serviceAccount = require('./fur-fact-firebase-adminsdk.json');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+});
 
 // Swagger 설정
 const setupSwagger = require('./src/swagger/swagger');
@@ -30,5 +36,5 @@ initializeDatabase()
         });
     })
     .catch((err) => {
-    console.error('Failed to initialize the database. Server not started.');
-});
+        console.error('Failed to initialize the database. Server not started.');
+    });
