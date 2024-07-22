@@ -6,21 +6,29 @@ info:
 
 paths:
   /api/v1/tests:
-    post:
-      summary: Test 생성
+    get:
+      summary: 전체 Test 리스트 조회
       tags:
         - Tests
-      description: 새로운 Test를 생성합니다.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
+      security:
+        - bearerAuth: []
+      description: 모든 Test 리스트를 조회합니다.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: 페이지 번호
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: 페이지당 항목 수
       responses:
         '200':
-          description: 성공적으로 Test가 생성되었습니다.
+          description: 전체 Test 리스트 조회가 성공적으로 완료되었습니다.
           content:
             application/json:
               schema:
@@ -31,25 +39,28 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: Test 생성에 성공했습니다.
+                    example: 전체 검사 리스트 조회가 성공되었습니다.
                   data:
                     type: object
                     properties:
-                      id:
+                      totalItems:
                         type: integer
-                        description: Test ID
-        '400':
-          description: 잘못된 요청.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: string
-                    example: fail
+                        example: 100
+                        description: 전체 항목 수
+                      totalPages:
+                        type: integer
+                        example: 10
+                        description: 전체 페이지 수
+                      currentPage:
+                        type: integer
+                        example: 1
+                        description: 현재 페이지
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Test'
         '500':
-          description: 서버 오류로 인해 Test 생성에 실패했습니다.
+          description: 서버 오류로 인해 전체 Test 리스트 조회에 실패했습니다.
           content:
             application/json:
               schema:
@@ -60,7 +71,121 @@ paths:
                     example: fail
                   message:
                     type: string
-                    example: Test 생성에 실패했습니다.
+                    example: 전체 검사 리스트 조회에 실패했습니다.
+
+  /api/v1/tests/{testId}:
+    get:
+      summary: 특정 Test 정보 조회
+      tags:
+        - Tests
+      security:
+        - bearerAuth: []
+      description: ID를 사용하여 특정 Test 정보를 조회합니다.
+      parameters:
+        - in: path
+          name: testId
+          schema:
+            type: integer
+          required: true
+          description: 조회할 Test ID
+      responses:
+        '200':
+          description: 특정 Test 정보 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 검사 정보 조회 성공
+                  data:
+                    $ref: '#/components/schemas/Test'
+        '404':
+          description: Test 정보를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 검사 정보를 찾을 수 없습니다.
+        '500':
+          description: 서버 오류로 인해 검사 정보 조회 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 검사 정보 조회에 실패했습니다.
+
+    delete:
+      summary: 특정 Test 정보 삭제
+      tags:
+        - Tests
+      security:
+        - bearerAuth: []
+      description: ID를 사용하여 특정 Test 정보를 삭제합니다.
+      parameters:
+        - in: path
+          name: testId
+          schema:
+            type: integer
+          required: true
+          description: 삭제할 Test ID
+      responses:
+        '200':
+          description: 특정 Test 정보 삭제 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 검사 정보가 삭제되었습니다.
+        '400':
+          description: 삭제할 Test 정보를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 검사 정보 삭제에 실패하였습니다.
+        '500':
+          description: 서버 오류로 인해 검사 정보 삭제 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 검사 정보 삭제에 실패했습니다.
+
   /api/v1/tests/comment:
     post:
       summary: Test에 코멘트 추가
@@ -175,3 +300,65 @@ components:
         id:
           type: integer
           description: Test ID
+        comment:
+          type: string
+          description: 코멘트
+        hospital:
+          type: string
+          description: 병원명
+        receivedAt:
+          type: string
+          format: date-time
+          description: 접수 날짜
+        resultDate:
+          type: string
+          format: date-time
+          description: 결과 날짜
+        guardianName:
+          type: string
+          description: 보호자 이름
+        contactNumber:
+          type: string
+          description: 연락처
+        petName:
+          type: string
+          description: 반려동물 이름
+        species:
+          type: string
+          description: 종
+        breed:
+          type: string
+          description: 품종
+        age:
+          type: integer
+          description: 나이
+        gender:
+          type: string
+          description: 성별
+        weight:
+          type: number
+          format: float
+          description: 체중
+        hereditaryDisease:
+          type: string
+          description: 유전병
+        feedingMethod:
+          type: string
+          description: 급여 방법
+        supplements:
+          type: string
+          description: 보충제
+        medication:
+          type: string
+          description: 약물
+        createdAt:
+          type: string
+          format: date-time
+          description: 생성 날짜
+        updatedAt:
+          type: string
+          format: date-time
+          description: 수정 날짜
+        isDeleted:
+          type: boolean
+          description: 삭제 여부
