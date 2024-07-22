@@ -14,11 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Firebase Admin SDK 초기화
-// let serviceAccount = require('./fur-fact-firebase-adminsdk.json');
+let serviceAccount = require('./fur-fact-firebase-adminsdk.json');
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-// });
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+});
 
 // Swagger 설정
 const setupSwagger = require('./src/swagger/swagger');

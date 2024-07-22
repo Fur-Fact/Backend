@@ -54,9 +54,11 @@ exports.deleteTest = async (id) => {
 };
 
 // 전체 테스트 리스트 조회 함수 추가
-exports.getTestList = async () => {
+exports.getTestList = async ({ page, limit }) => {
   try {
-    const tests = await Test.findAll({
+    const offset = (page - 1) * limit;
+
+    const result = await Test.findAndCountAll({
       attributes: [
         'petName',
         'age',
@@ -66,8 +68,16 @@ exports.getTestList = async () => {
         'resultDate',
         'hereditary_disease',
       ],
+      offset: offset,
+      limit: limit,
     });
-    return tests;
+
+    return {
+      totalItems: result.count,
+      totalPages: Math.ceil(result.count / limit),
+      currentPage: page,
+      data: result.rows,
+    };
   } catch (error) {
     throw error;
   }
