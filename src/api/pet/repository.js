@@ -35,3 +35,17 @@ exports.getPetsByUserNameAndPetName = async (userName, petName) => {
     throw err;
   }
 };
+
+exports.getPetsByUserId = async (userId) => {
+  try {
+    const pets = await Pet.findAll({
+      where: {
+        userId: userId,
+      },
+    });
+    return pets;
+  } catch (err) {
+    console.error('Error during fetching pets by user id:', err);
+    throw err;
+  }
+};
