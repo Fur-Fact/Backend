@@ -190,55 +190,7 @@ paths:
           description: 펫을 찾을 수 없음
         500:
           description: 서버 오류
-
-  /api/v1/pets/search:
-    get:
-      summary: 보호자 이름과 펫 이름으로 펫 조회
-      tags:
-        - Pets
-      parameters:
-        - in: query
-          name: userName
-          required: true
-          description: 보호자 이름
-          schema:
-            type: string
-        - in: query
-          name: petName
-          required: true
-          description: 펫 이름
-          schema:
-            type: string
-      responses:
-        200:
-          description: 펫 조회 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: string
-                  tests:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Pet"
-        400:
-          description: 필수 필드 누락
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: string
-                  message:
-                    type: string
-        404:
-          description: 사용자 또는 펫을 찾을 수 없음
-        500:
-          description: 서버 오류
-
+          
   /api/v1/pets/list:
     get:
       summary: 모든 펫 정보 조회(로그인 필요)

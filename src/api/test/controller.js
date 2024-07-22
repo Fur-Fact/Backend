@@ -1,5 +1,6 @@
 const testRepository = require('./repository');
 const admin = require('firebase-admin');
+const User = require("../user/model");
 
 exports.createTest = async (req, res) => {
   try {
@@ -133,5 +134,33 @@ exports.getTestList = async (req, res) => {
       result: 'fail',
       message: '전체 검사 리스트 조회에 실패했습니다.',
     });
+  }
+};
+
+
+exports.getTestByPhoneAndName = async (req, res) => {
+
+  const user = req.user;
+  const { petName } = req.query;
+
+  if (!petName) {
+    return res.status(400).send({
+      result: 'fail',
+      message: '펫 이름이 필요합니다.',
+    });
+  }
+
+  const users = await User.findByPk(user.id);
+
+  try {
+    const tests = await testRepository.getTestsByPhoneAndPetName(users.phone, petName);
+    if (tests.length > 0) {
+      res.status(200).send({ result: 'success', tests });
+    } else {
+      res.status(404).send({ result: 'fail', message: '해당 조건의 펫을 찾을 수 없습니다.' });
+    }
+  } catch (err) {
+    console.error('Error during pet retrieval by name:', err);
+    res.status(500).send({ result: 'fail', message: '펫 정보 조회에 실패했습니다.' });
   }
 };

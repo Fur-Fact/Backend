@@ -78,31 +78,6 @@ exports.getPetsByUserId = async (req, res) => {
   }
 };
 
-
-exports.getPetByName = async (req, res) => {
-
-  const { userName, petName } = req.query;
-
-  if (!userName || !petName) {
-    return res.status(400).send({
-      result: 'fail',
-      message: '보호자 이름과 펫 이름이 필요합니다.',
-    });
-  }
-
-  try {
-    const tests = await petRepository.getPetsByUserNameAndPetName(userName, petName);
-    if (tests.length > 0) {
-      res.status(200).send({ result: 'success', tests });
-    } else {
-      res.status(404).send({ result: 'fail', message: '해당 조건의 펫을 찾을 수 없습니다.' });
-    }
-  } catch (err) {
-    console.error('Error during pet retrieval by name:', err);
-    res.status(500).send({ result: 'fail', message: '펫 정보 조회에 실패했습니다.' });
-  }
-};
-
 // 펫 수정
 exports.updatePet = async (req, res) => {
   const { petId } = req.params;

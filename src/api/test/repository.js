@@ -82,3 +82,18 @@ exports.getTestList = async ({ page, limit }) => {
     throw error;
   }
 };
+
+exports.getTestsByPhoneAndPetName = async (contactNumber, petName) => {
+  try {
+    const tests = await Test.findAll({
+      where: {
+        contact_number: contactNumber,
+        pet_name: petName,
+      },
+    });
+    return tests;
+  } catch (err) {
+    console.error('Error fetching pets by user name and pet name:', err);
+    throw err;
+  }
+};
