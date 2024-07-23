@@ -29,12 +29,12 @@ router.get("/api/v1/pets/:petId", verify, petController.getPet); // 특정 펫 �
 router.post("/api/v1/tests", testController.createTest);
 router.post('/api/v1/tests/comment', testController.addCommentToTest);
 router.post('/api/v1/tests/push', testController.pushAlarm);
-router.post("/api/v1/tests", testController.createTest); // 검사 정보 추가
-router.get('/api/v1/tests',verify, testController.getTestList); // 검사 리스트 조회
-router.get('/api/v1/tests/search', verify, testController.getTestByPhoneAndName);
+router.get('/api/v1/tests', testController.getTestList); // 검사 리스트 조회
+router.get('/api/v1/tests/user/search', verify, testController.getTestByPhoneAndNameWithSecurity);
+router.get('/api/v1/tests/vet/search', testController.getTestByPhoneAndName);
 router.put("/api/v1/tests/:testId", testController.updateTestStatus);
-router.get('/api/v1/tests/:testId',verify, testController.getTest); // 검사정보 조회
-router.delete('/api/v1/tests/:testId',verify, testController.deleteTest); // 검사정보 삭제
+router.get('/api/v1/tests/:testId', testController.getTest); // 검사정보 조회
+router.delete('/api/v1/tests/:testId', testController.deleteTest); // 검사정보 삭제
 
 
 //furdata

@@ -151,7 +151,7 @@ exports.getTestList = async (req, res) => {
 };
 
 
-exports.getTestByPhoneAndName = async (req, res) => {
+exports.getTestByPhoneAndNameWithSecurity = async (req, res) => {
 
   const user = req.user;
   const { petName } = req.query;
@@ -167,6 +167,30 @@ exports.getTestByPhoneAndName = async (req, res) => {
 
   try {
     const tests = await testRepository.getTestsByPhoneAndPetName(users.phone, petName);
+    if (tests.length > 0) {
+      res.status(200).send({ result: 'success', tests });
+    } else {
+      res.status(404).send({ result: 'fail', message: '해당 조건의 펫을 찾을 수 없습니다.' });
+    }
+  } catch (err) {
+    console.error('Error during pet retrieval by name:', err);
+    res.status(500).send({ result: 'fail', message: '펫 정보 조회에 실패했습니다.' });
+  }
+};
+
+exports.getTestByPhoneAndName = async (req, res) => {
+
+  const { contactNumber, petName } = req.query;
+
+  if (!contactNumber || !petName) {
+    return res.status(400).send({
+      result: 'fail',
+      message: '전화번호 또는 펫 이름이 필요합니다.',
+    });
+  }
+
+  try {
+    const tests = await testRepository.getTestsByPhoneAndPetName(contactNumber, petName);
     if (tests.length > 0) {
       res.status(200).send({ result: 'success', tests });
     } else {
