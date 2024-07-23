@@ -1,6 +1,7 @@
 const testRepository = require('./repository');
 const admin = require('firebase-admin');
 const User = require("../user/model");
+const Test = require("../test/model");
 
 exports.createTest = async (req, res) => {
   try {
@@ -40,7 +41,11 @@ exports.addCommentToTest = async (req, res) => {
 };
 
 exports.pushAlarm = async (req, res) => {
-  const { token } = req.body;
+  const { test_id, token } = req.body;
+
+  if (!test_id || !token) {
+    return res.status(400).json({ success: false, message: 'test_id와 token이 필요합니다.' });
+  }
 
   const userToken = token;
 
@@ -52,17 +57,25 @@ exports.pushAlarm = async (req, res) => {
     token: userToken,
   };
 
-  admin
-    .messaging()
-    .send(message)
-    .then(function (response) {
-      console.log('Successfully sent message:', response);
-      return res.status(200).json({ success: true });
-    })
-    .catch(function (err) {
-      console.log('Error Sending message:', err);
-      return res.status(400).json({ success: false });
-    });
+  try {
+    // 알림 전송
+    const response = await admin.messaging().send(message);
+    console.log('Successfully sent message:', response);
+
+    // 상태 업데이트
+    const test = await Test.findByPk(test_id);
+    if (!test) {
+      return res.status(404).json({ success: false, message: '해당 test_id를 찾을 수 없습니다.' });
+    }
+
+    test.status = '코멘트 완료';
+    await test.save();
+
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.log('Error Sending message or updating status:', err);
+    return res.status(500).json({ success: false, message: '알림 전송 또는 상태 업데이트에 실패했습니다.' });
+  }
 };
 
 // 검사 정보 조회
@@ -162,5 +175,29 @@ exports.getTestByPhoneAndName = async (req, res) => {
   } catch (err) {
     console.error('Error during pet retrieval by name:', err);
     res.status(500).send({ result: 'fail', message: '펫 정보 조회에 실패했습니다.' });
+  }
+};
+
+exports.updateTestStatus = async (req, res) => {
+  const { testId } = req.params;
+
+  if (!testId) {
+    return res.status(400).json({ success: false, message: 'test_id가 필요합니다.' });
+  }
+
+  try {
+    // 상태 업데이트
+    const test = await Test.findByPk(testId);
+    if (!test) {
+      return res.status(404).json({ success: false, message: '해당 test_id를 찾을 수 없습니다.' });
+    }
+
+    test.status = '코멘트 대기';
+    await test.save();
+
+    return res.status(200).json({ success: true, message: '상태가 코멘트 대기로 변경되었습니다.' });
+  } catch (err) {
+    console.log('Error updating status:', err);
+    return res.status(500).json({ success: false, message: '상태 업데이트에 실패했습니다.' });
   }
 };
