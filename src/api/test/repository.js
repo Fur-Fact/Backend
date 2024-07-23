@@ -60,6 +60,7 @@ exports.getTestList = async ({ page, limit }) => {
 
     const result = await Test.findAndCountAll({
       attributes: [
+        'id',
         'petName',
         'age',
         'gender',
