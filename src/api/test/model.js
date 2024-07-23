@@ -89,6 +89,12 @@ const Test = sequelize.define('Test', {
         type: DataTypes.STRING(256),
         allowNull: true,
     },
+    status: {
+        field: 'status',
+        type: DataTypes.ENUM('코멘트 요청', '코멘트 대기', '코멘트 완료'),
+        allowNull: false,
+        defaultValue: '코멘트 요청',
+    },
     createdAt: {
         field: 'created_at',
         type: DataTypes.DATE,

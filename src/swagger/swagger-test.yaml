@@ -130,7 +130,72 @@ paths:
                   message:
                     type: string
                     example: 검사 정보 조회에 실패했습니다.
-
+    put:
+      summary: Test 상태 업데이트
+      tags:
+        - Tests
+      description: testId를 사용하여 Test 상태를 '코멘트 대기'로 업데이트합니다.
+      parameters:
+        - in: path
+          name: testId
+          schema:
+            type: integer
+          required: true
+          description: 상태 업데이트할 Test ID
+      responses:
+        '200':
+          description: 상태 업데이트 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 상태가 코멘트 대기로 변경되었습니다.
+        '400':
+          description: 잘못된 요청 (testId가 필요)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: testId가 필요합니다.
+        '404':
+          description: 해당 testId를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 해당 testId를 찾을 수 없습니다.
+        '500':
+          description: 서버 오류로 인해 상태 업데이트 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: fail
+                  message:
+                    type: string
+                    example: 상태 업데이트에 실패했습니다.
+  
     delete:
       summary: 특정 Test 정보 삭제
       tags:
@@ -262,6 +327,9 @@ paths:
             schema:
               type: object
               properties:
+                test_id:
+                  type: integer
+                  description: test_id
                 token:
                   type: string
                   description: FCM 토큰
@@ -362,6 +430,7 @@ paths:
                     type: string
                     example: 펫 정보 조회에 실패했습니다.
 
+  
 components:
   schemas:
     Test:
@@ -421,6 +490,13 @@ components:
         medication:
           type: string
           description: 약물
+        status:
+          type: string
+          enum:
+            - 코멘트 요청
+            - 코멘트 대기
+            - 코멘트 완료
+          description: 현재 상태
         createdAt:
           type: string
           format: date-time
