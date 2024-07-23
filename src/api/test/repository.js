@@ -68,6 +68,7 @@ exports.getTestList = async ({ page, limit }) => {
         'weight',
         'resultDate',
         'hereditary_disease',
+        'status',
       ],
       offset: offset,
       limit: limit,
