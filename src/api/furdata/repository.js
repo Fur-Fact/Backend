@@ -58,7 +58,7 @@ exports.createFurdata = async (jsonData) => {
                 Ba: data['바륨(Ba)'],
                 Sb: data['안티몬(Sb)'],
                 Bi: data['비스무스(Bi)'],
-                Ti: data['탈륨(Tl)'],
+                Tl: data['탈륨(Tl)'],
                 U: data['우라늄(U)'],
                 Cs: data['세슘(Cs)'],
             };

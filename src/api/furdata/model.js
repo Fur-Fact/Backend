@@ -45,7 +45,7 @@ const FurData = sequelize.define('FurData', {
     Ba: { field: 'Ba', type: DataTypes.FLOAT, allowNull: true },
     Sb: { field: 'Sb', type: DataTypes.FLOAT, allowNull: true },
     Bi: { field: 'Bi', type: DataTypes.FLOAT, allowNull: true },
-    Ti: { field: 'Ti', type: DataTypes.FLOAT, allowNull: true },
+    Tl: { field: 'Tl', type: DataTypes.FLOAT, allowNull: true },
     U: { field: 'U', type: DataTypes.FLOAT, allowNull: true },
     Cs: { field: 'Cs', type: DataTypes.FLOAT, allowNull: true },
 }, {
