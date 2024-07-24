@@ -72,7 +72,7 @@ exports.getTestList = async ({ page, limit }) => {
       ],
       offset: offset,
       limit: limit,
-      order: [['resultDate', 'DESC']],
+      order: [['resultDate', 'DESC'], ['id', 'ASC']],
     });
 
     return {
