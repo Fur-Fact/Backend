@@ -324,11 +324,12 @@ paths:
                 test_id:
                   type: integer
                   description: test_id
-                token:
+                phone:
                   type: string
-                  description: FCM 토큰
+                  description: 전화번호
               required:
-                - token
+                - test_id
+                - phone
       responses:
         '200':
           description: 성공적으로 푸시 알림이 전송되었습니다.
