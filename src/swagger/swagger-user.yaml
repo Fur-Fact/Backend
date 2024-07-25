@@ -123,6 +123,60 @@ paths:
         500:
           description: 서버 오류
 
+  /api/v1/users/updateToken:
+    post:
+      summary: FCM 토큰 업데이트
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fcmToken:
+                  type: string
+                  description: FCM 토큰
+      responses:
+        200:
+          description: FCM 토큰 업데이트 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: 성공 여부
+                  message:
+                    type: string
+                    description: 결과 메시지
+        400:
+          description: FCM 토큰 누락
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        500:
+          description: 서버 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+
 components:
   schemas:
     User:
@@ -140,6 +194,9 @@ components:
         phone:
           type: string
           description: 사용자 전화번호
+        fcmToken:
+          type: string
+          description: FCM 토큰
   securitySchemes:
     bearerAuth:
       type: http

@@ -91,3 +91,24 @@ exports.mypage = async (req, res) => {
         res.send(item);
     }
 };
+
+exports.fcmToken = async (req, res) => {
+    const userId = req.user.id;
+    const { fcmToken } = req.body;
+
+    if (!fcmToken) {
+        return res.status(400).json({ success: false, message: 'FCM 토큰이 필요합니다.' });
+    }
+
+    try {
+        const user = await userRepository.findUserById(userId);
+        user.fcmToken = fcmToken;
+        await user.save();
+
+        return res.status(200).json({ success: true, message: 'FCM 토큰이 성공적으로 업데이트되었습니다.' });
+    } catch (err) {
+        console.log('Error updating FCM token:', err);
+        return res.status(500).json({ success: false, message: 'FCM 토큰 업데이트에 실패했습니다.' });
+    }
+};
+

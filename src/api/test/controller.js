@@ -41,13 +41,16 @@ exports.addCommentToTest = async (req, res) => {
 };
 
 exports.pushAlarm = async (req, res) => {
-  const { test_id, token } = req.body;
+  const { test_id, phone } = req.body;
 
-  if (!test_id || !token) {
+  if (!test_id || !phone) {
     return res.status(400).json({ success: false, message: 'test_id와 token이 필요합니다.' });
   }
 
-  const userToken = token;
+  const user = await User.findOne({ where: { phone } });
+
+  const userToken = user.fcmToken;
+  console.log(userToken);
 
   let message = {
     notification: {
@@ -64,6 +67,7 @@ exports.pushAlarm = async (req, res) => {
 
     // 상태 업데이트
     const test = await Test.findByPk(test_id);
+    console.log(test);
     if (!test) {
       return res.status(404).json({ success: false, message: '해당 test_id를 찾을 수 없습니다.' });
     }

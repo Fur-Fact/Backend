@@ -30,6 +30,11 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING(200),
         allowNull: false
     },
+    fcmToken: {
+        field: "fcm_token",
+        type: DataTypes.STRING(255),  // 토큰 길이에 따라 적절히 조정 가능
+        allowNull: true  // 초기에는 null 허용
+    },
     createdAt: {
         field: "created_at",
         type: DataTypes.DATE,
