@@ -11,7 +11,25 @@ const port = process.env.PORT || 3000;
 // 미들웨어 설정
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+const allowedOrigins = [
+    'https://frontend-ten-rosy-72.vercel.app',
+    'https://d15btnqgm33xtd.cloudfront.net'
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+    } else {
+        callback(new Error('Not allowed by CORS'));
+    }
+    },
+    credentials: true,  // 자격 증명을 포함하도록 설정
+};
+app.use(cors(corsOptions)); // CORS 미들웨어 설정
+
+
 
 // Firebase Admin SDK 초기화
 let serviceAccount = require('./fur-fact-firebase-adminsdk.json');
