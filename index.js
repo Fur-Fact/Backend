@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const allowedOrigins = [
     'https://frontend-ten-rosy-72.vercel.app',
     'https://d15btnqgm33xtd.cloudfront.net',
-    "https://furfact.site",
+    'https://frontend-m2wrstio1-bellyuns-projects.vercel.app/',
+    'https://furfact.site',
 ];
 
 const corsOptions = {
