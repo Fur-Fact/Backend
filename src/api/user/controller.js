@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
         const user = await userRepository.findUserByEmailAndPassword(email, password);
 
         if (!user) {
-            return res.send({ result: 'fail', message: '이메일 또는 비밀번호가 잘못되었습니다.' });
+            return res.status(400).send({ result: 'fail', message: '이메일 또는 비밀번호가 잘못되었습니다.' });
         }
 
         const token = await jwt.jwtSign(
@@ -76,7 +76,7 @@ exports.login = async (req, res) => {
         });
     } catch (err) {
         console.error('Error during user login:', err);
-        res.send({ result: 'fail', message: '로그인에 실패했습니다.' });
+        res.status(500).send({ result: 'fail', message: '로그인에 실패했습니다.' });
     }
 };
 

@@ -11,9 +11,9 @@ const testSwaggerDocument = YAML.load(path.join(__dirname, '../swagger/swagger-t
 const swaggerDocument = {
     openapi: '3.0.0',
     info: {
-        title: 'API Documentation',
+        title: 'Fur-Fact',
         version: '1.0.0',
-        description: 'API documentation for multiple domains'
+        description: '펫 모발을 통한 데이터 분석 및 사료 추천 서비스'
     },
     paths: {
         ...petSwaggerDocument.paths,
