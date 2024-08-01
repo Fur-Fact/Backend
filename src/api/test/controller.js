@@ -49,13 +49,17 @@ exports.pushAlarm = async (req, res) => {
 
   const user = await User.findOne({ where: { phone } });
 
+  if(!user){
+    return res.status(400).json({ success: false, message: 'user가 존재하지 않습니다.' });
+  }
+
   const userToken = user.fcmToken;
   console.log(userToken);
 
   let message = {
     notification: {
-      title: '테스트',
-      body: '테스트',
+      title: '수의사 코멘트 완료',
+      body: '수의사 코멘트 작성이 완료되었습니다.',
     },
     token: userToken,
   };
